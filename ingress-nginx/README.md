@@ -2,8 +2,8 @@
 
 *FIXME*
 - Use json for logs https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/configmap.md#log-format-upstream
-    - Adjust Loki
-    - create metrics for TLS versions that connect, see next
+  - Adjust Loki
+  - create metrics for TLS versions that connect, see next
 - Add TLSv3 https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/configmap.md#ssl-protocols
 - maybe use-proxy-protocol? https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/configmap.md#use-proxy-protocol
 - use-geoip2?
@@ -38,10 +38,10 @@ configMapGenerator:
 rm -r ./cloud-generic ./cluster-wide ./grafana
 
 curl -L https://github.com/kubernetes/ingress-nginx/archive/master.tar.gz \
-    | tar -xz --directory ./base --strip-components=2 \
-        ingress-nginx-master/deploy/cloud-generic \
-        ingress-nginx-master/deploy/cluster-wide \
-        ingress-nginx-master/deploy/grafana/dashboards
+  | tar -xz --directory ./base --strip-components=2 \
+    ingress-nginx-master/deploy/cloud-generic \
+    ingress-nginx-master/deploy/cluster-wide \
+    ingress-nginx-master/deploy/grafana/dashboards
 
 # place manifests in local directory
 kubectl kustomize .
