@@ -9,7 +9,7 @@ For features see https://github.com/cloudnativelabs/kube-router/blob/master/docs
 # update from upstream
 rm ./kubeadm-kuberouter-all-features-hostport.yaml
 
-curl -sfSLO https://raw.githubusercontent.com/cloudnativelabs/kube-router/v0.3.1/daemonset/kubeadm-kuberouter-all-features-hostport.yaml
+curl -sfSLO https://raw.githubusercontent.com/cloudnativelabs/kube-router/v0.3.2/daemonset/kubeadm-kuberouter-all-features-hostport.yaml
 
 
 # build manifests to verify
