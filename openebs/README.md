@@ -9,10 +9,7 @@ https://docs.openebs.io/docs/overview.html
 # update from upstream
 curl -sfSL https://openebs.github.io/charts/openebs-operator-1.1.0.yaml \
   -o ./openebs-operator.yaml
-  
-# remove from `openebs-operator.yaml`:
-# - Namespace/openebs
-# - ConfigMap/openebs-ndm-config
+# remove Namespace/openebs from `openebs-operator.yaml`
 
 # build manifests to verify
 kustomize build .
