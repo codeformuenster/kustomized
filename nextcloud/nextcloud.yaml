@@ -147,8 +147,8 @@ spec:
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mariadb
-              key: mysql-nextcloud-password
+              name: mariadb-passwords
+              key: nextcloud
         # - name: VIRTUAL_HOST
         #   value:
         - name: NEXTCLOUD_ADMIN_USER
@@ -156,8 +156,8 @@ spec:
         - name: NEXTCLOUD_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: nextcloud
-              key: nextcloud-admin-password
+              name: nextcloud-passwords
+              key: admin
         volumeMounts:
         - name: nextcloud-redis-config
           mountPath: /usr/src/nextcloud/config/redis.config.php

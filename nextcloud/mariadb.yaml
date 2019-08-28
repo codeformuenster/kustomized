@@ -75,12 +75,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mariadb-passwords
-              key: mariadb-nextcloud-password
+              key: nextcloud
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mariadb-passwords
-              key: mariadb-root-password
+              key: root
         volumeMounts:
         - name: data
           mountPath: /var/lib/mysql
