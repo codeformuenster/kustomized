@@ -1,0 +1,78 @@
+# FIXME
+# add prometheus exporter sidecar https://github.com/oliver006/redis_exporter/blob/master/contrib/k8s-redis-and-exporter-deployment.yaml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: database
+spec:
+  ports:
+  - name: redis
+    port: 6379
+    targetPort: redis
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: database
+
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: redis
+#   namespace: nextcloud
+#   labels:
+#     app: nextcloud
+# data:
+#   redis-config: |
+#     maxmemory 2mb
+#     maxmemory-policy allkeys-lru
+
+---
+# FIXME
+# 1:M 09 Dec 2018 13:55:51.142 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: database
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/component: database
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/component: database
+    spec:
+      containers:
+      - name: redis
+        image: redis:5.0-alpine
+        ports:
+        - name: redis
+          containerPort: 6379
+        # resources:
+        #   limits:
+        #     cpu: "0.1"
+        volumeMounts:
+        - mountPath: /redis-data
+          name: data
+        # - mountPath: /redis-master
+        #   name: config
+      volumes:
+        - name: data
+          emptyDir: {}
+        # - name: config
+        #   configMap:
+        #     name: example-redis-config
+        #     items:
+        #     - key: redis-config
+        #       path: redis.conf

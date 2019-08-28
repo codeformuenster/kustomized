@@ -1,0 +1,109 @@
+# FIXME
+# as a sidecar? https://github.com/prometheus/mysqld_exporter
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/component: database
+spec:
+  ports:
+  - name: db
+    port: 3306
+    targetPort: db
+  selector:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/component: database
+
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: mariadb
+#   namespace: nextcloud
+# data:
+#   # openssl rand -base64 32 | tr -d "\n" | base64
+#   mysql-root-password:
+
+# kubectl -n nextcloud create secret generic mariadb \
+#   --from-literal=mysql-root-password=$(openssl rand -base64 32 | tr -d "\n" | base64) \
+#   --from-literal=mysql-nextcloud-password=$(openssl rand -base64 32 | tr -d "\n" | base64)
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/component: database
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mariadb
+      app.kubernetes.io/component: database
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mariadb
+        app.kubernetes.io/component: database
+    spec:
+      # FIXME liveness/readiness checks
+      # FIXME requests/limits
+      # FIXME prometheus exporter?
+      containers:
+      - name: mariadb
+        image: mariadb:10.4
+        # FIXME command!
+        # see https://github.com/nextcloud/docker/blob/master/.examples/docker-compose/with-nginx-proxy/mariadb/apache/docker-compose.yml#L6
+        # command: 
+        # - mysqld 
+        # - --transaction-isolation=READ-COMMITTED 
+        # - --binlog-format=ROW
+        ports:
+        - name: db
+          containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: nextcloud
+        - name: MYSQL_USER
+          value: nextcloud
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-passwords
+              key: mariadb-nextcloud-password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-passwords
+              key: mariadb-root-password
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+          subPath: data
+      volumes:
+      - name: data
+        # persistentVolumeClaim:
+        #   claimName: mariadb-data
+        hostPath:
+          path: /srv/nextcloud-mariadb
+          type: DirectoryOrCreate
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mariadb-data
+#   labels:
+#     app.kubernetes.io/name: mariadb
+#     app.kubernetes.io/component: database
+# spec:
+#   accessModes:
+#   - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 5G

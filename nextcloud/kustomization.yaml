@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: nextcloud
+commonLabels:
+  app.kubernetes.io/part-of: nextcloud
+
+resources:
+- ./nextcloud.yaml
+- ./mariadb.yaml
+- ./redis.yaml
+
+images:
+- name: nextcloud
+  newTag: 16.0.4-apache
+- name: mariadb
+  newTag: "10.4.7"
+- name: redis
+  newTag: 5.0.5-alpine
+
+# secretGenerator:
+# - name: nextcloud-passwords
+#   env: ./secrets/nextcloud-passwords
+# - name: mariadb-passwords
+#   env: ./secrets/mariadb-passwords
+# 
+# patchesStrategicMerge:
+# - ./keycloak-ingress-patch.yaml
