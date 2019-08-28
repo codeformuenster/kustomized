@@ -193,7 +193,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nextcloud-data
-  label:
+  labels:
     app.kubernetes.io/name: nextcloud
     app.kubernetes.io/component: server
 spec:

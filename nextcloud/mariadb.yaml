@@ -87,11 +87,12 @@ spec:
           subPath: data
       volumes:
       - name: data
-        # persistentVolumeClaim:
-        #   claimName: mariadb-data
-        hostPath:
-          path: /srv/nextcloud-mariadb
-          type: DirectoryOrCreate
+        persistentVolumeClaim:
+          claimName: mariadb-data
+        # or:
+        # hostPath:
+        #   path: /srv/nextcloud-mariadb
+        #   type: DirectoryOrCreate
 
 # ---
 # apiVersion: v1
