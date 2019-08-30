@@ -37,11 +37,17 @@ configMapGenerator:
 # refresh from upstream
 rm -r ./cloud-generic ./cluster-wide ./grafana
 
-curl -L https://github.com/kubernetes/ingress-nginx/archive/nginx-0.25.0.tar.gz \
+curl -L https://github.com/kubernetes/ingress-nginx/archive/master.tar.gz \
   | tar -xz --strip-components=2 \
-    ingress-nginx-nginx-0.25.0/deploy/cloud-generic \
-    ingress-nginx-nginx-0.25.0/deploy/cluster-wide \
-    ingress-nginx-nginx-0.25.0/deploy/grafana/dashboards
+    ingress-nginx-master/deploy/cloud-generic \
+    ingress-nginx-master/deploy/cluster-wide \
+    ingress-nginx-master/deploy/grafana/dashboards
+
+curl -L https://github.com/kubernetes/ingress-nginx/archive/nginx-0.25.1.tar.gz \
+  | tar -xz --strip-components=2 \
+    ingress-nginx-nginx-0.25.1/deploy/cloud-generic \
+    ingress-nginx-nginx-0.25.1/deploy/cluster-wide \
+    ingress-nginx-nginx-0.25.1/deploy/grafana/dashboards
 
 # place manifests in local directory
 kubectl kustomize .
@@ -51,3 +57,7 @@ kubectl apply -k .
 ```
 
 In Grafana import dashboard https://grafana.com/dashboards/9614
+
+## FIXME
+- set [Pod Disruption Budgets](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/)
+- use `hostPort` instead of hostNetwork https://kubernetes.io/docs/concepts/configuration/overview/#services
