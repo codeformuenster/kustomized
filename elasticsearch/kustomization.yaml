@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: elasticsearch
+commonLabels:
+  app.kubernetes.io/part-of: elasticsearch
+
+resources:
+- ./helm/output/elasticsearch/templates/statefulset.yaml
+- ./helm/output/elasticsearch/templates/poddisruptionbudget.yaml
+- ./helm/output/elasticsearch/templates/configmap.yaml
+- ./helm/output/elasticsearch/templates/service.yaml
+
+images:
+- name: docker.elastic.co/elasticsearch/elasticsearch-oss
+  newName: codeformuenster/elasticsearch-oss-plugins
+  newTag: "7.2.0-testing1"
+
+# patchesStrategicMerge:
+# - ./patches.yaml
+
+configMapGenerator:
+- name: elasticsearch-master-config
+  behavior: replace
+  files:
+  - elasticsearch.yml=./config.yaml
+
+# secretGenerator:
+# - name: certificates-transport
+#   files:
+#   - root-ca.pem=./certs/root-ca.pem
+#   - node.pem=./certs/node.pem
+#   - node-key.pem=./certs/node-key.pem
+

@@ -1,0 +1,7 @@
+image: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+
+esConfig:
+  elasticsearch.yml: ""
+
+sysctlInitContainer:
+  enabled: false

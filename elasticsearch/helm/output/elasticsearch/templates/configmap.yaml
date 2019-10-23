@@ -1,0 +1,136 @@
+---
+# Source: elasticsearch/templates/configmap.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-master-config
+  labels:
+    heritage: "Tiller"
+    release: "elasticsearch"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+data:
+  elasticsearch.yml: |
+    path.data: /usr/share/elasticsearch/data
+    
+    opendistro_security:
+      # advanced_modules_enabled: false
+
+      # If this is set to true Open Distro Security will automatically initialize the configuration index
+      # with the files in the config directory if the index does not exist.
+      # WARNING: This will use well-known default passwords.
+      #          Use only in a private network/environment.
+      allow_default_init_securityindex: true
+
+      # audit.type: internal_elasticsearch
+      # check_snapshot_restore_write_privileges: true
+      # enable_snapshot_restore_privilege: true
+      # restapi.roles_enabled: ["all_access", "security_rest_api_access"]
+      ssl.transport.enabled: true
+      ssl.transport.enforce_hostname_verification: false
+      ssl.transport.pemtrustedcas_filepath: root-ca.pem
+      ssl.transport.pemcert_filepath: node.pem
+      ssl.transport.pemkey_filepath: node-key.pem
+      # ssl.transport.pemcert_filepath: admin.pem
+      # ssl.transport.pemkey_filepath: admin-key.pem
+
+      ssl.http.enabled: false
+      # ssl.http.pemcert_filepath: cert.pem
+      # ssl.http.pemkey_filepath: key.pem
+      # ssl.http.pemtrustedcas_filepath: ca.pem
+
+      nodes_dn:
+        # - "L=Boulder,O=ApertureAnalytics,ST=CO,C=US,OU=Engineering,CN=elasticsearch"
+      - "CN=elasticsearch,O=cfm,L=ms,ST=nrw,C=DE"
+
+      authcz.admin_dn:
+      - "CN=admin,O=cfm,L=ms,ST=nrw,C=DE"
+
+
+# opendistro_security.opendistro_security.nodes_dn
+
+
+# {"type": "server", "timestamp": "2019-10-22T21:27:12,180+0000", "level": "ERROR", "component": "c.a.o.s.t.OpenDistroSecurityRequestHandler", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-1",  "message": "ElasticsearchException[Illegal parameter in http or transport request found.\nThis means that one node is trying to connect to another with \na non-node certificate (no OID or security.nodes_dn incorrect configured) or that someone \nis spoofing requests. Check your TLS certificate setup as described here: See https://opendistro.github.io/for-elasticsearch-docs/docs/troubleshoot/tls/]"  }
+
+
+# "stacktrace": ["javax.net.ssl.SSLHandshakeException: Insufficient buffer remaining for AEAD cipher fragment (2). Needs to be more than tag size (16)",
+
+
+
+# {"type": "server", "timestamp": "2019-10-22T22:09:33,731+0000", "level": "ERROR", "component": "c.a.o.e.p.o.OSGlobals", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-2",  "message": "Error in reading/parsing clk.tck value: java.lang.NumberFormatException: null" , 
+
+# But if you are building plugin & installed, the following things required to set:
+
+#     1. pass clk.tck= as -D option for java (for linux: can get the value by executing: /usr/bin/getconf CLK_TCK)
+#       /usr/bin/getconf CLK_TCK -> 100
+
+#       -D clk.tck=100
+
+
+#     2. If using JDK 8, need to bring your tools.jar (from JDK), and have it in the class path (as specified in https://opendistro.github.io/for-elasticsearch-docs/docs/troubleshoot/ 28); 
+      
+#       If using >= JDK 9, need to set: jdk.attach.allowAttachSelf=true as -D option
+
+#       -D jdk.attach.allowAttachSelf=true
+
+
+#     3. ES security policy need to set to: java.security.policy=<ES_HOME>/plugins/opendistro_performance_analyzer/pa_config/es_security.policy as -D option
+
+# Will be adding an issue (on github) for more detailed error messages if these are not set properly
+
+
+
+# export ES_JAVA_OPTS="-Des.cgroups.hierarchy.override=/ $ES_JAVA_OPTS"
+
+#     CLK_TCK=`/usr/bin/getconf CLK_TCK`
+
+#     ES_JAVA_OPTS="-Djava.security.policy=file:///usr/share/elasticsearch/plugins/opendistro_performance_analyzer/pa_config/es_security.policy -Dclk.tck=$CLK_TCK -Djdk.attach.allowAttachSelf=true $ES_JAVA_OPTS"
+
+
+#     /usr/bin/supervisord -c /usr/share/elasticsearch/plugins/opendistro_performance_analyzer/pa_config/supervisord.conf
+
+# ES_JAVA_OPTS="-Djava.security.policy=file:///usr/share/elasticsearch/plugins/opendistro_performance_analyzer/pa_config/es_security.policy -Dclk.tck=100 -Djdk.attach.allowAttachSelf=true"
+
+
+# {"type": "server", "timestamp": "2019-10-22T22:09:35,927+0000", "level": "ERROR", "component": "c.a.o.s.s.t.OpenDistroSecuritySSLNettyTransport", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-2",  "message": "SSL Problem Insufficient buffer remaining for AEAD cipher fragment (2). Needs to be more than tag size (16)" , 
+
+# {"type": "server", "timestamp": "2019-10-22T22:09:36,438+0000", "level": "ERROR", "component": "c.a.o.s.s.t.OpenDistroSecuritySSLNettyTransport", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-2",  "message": "SSL Problem PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target" , 
+
+# {"type": "server", "timestamp": "2019-10-22T22:09:36,663+0000", "level": "ERROR", "component": "c.a.o.s.s.t.OpenDistroSecuritySSLNettyTransport", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-2",  "message": "SSL Problem Received fatal alert: certificate_unknown" , 
+
+
+
+# {"type": "server", "timestamp": "2019-10-22T23:13:57,724+0000", "level": "ERROR", "component": "c.a.o.s.s.t.OpenDistroSecuritySSLNettyTransport", "cluster.name": "elasticsearch", "node.name": "elasticsearch-master-2",  "message": "SSL Problem PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target" , 
+
+
+
+# $ES_PLUGINS_DIR/opendistro_security/tools/securityadmin.sh
+
+
+# export JAVA_HOME="/usr/share/elasticsearch/jdk"
+# sh plugins/opendistro_security/tools/securityadmin.sh
+
+
+
+# https://opendistro.github.io/for-elasticsearch-docs/docs/security-configuration/security-admin/
+
+# ```bash
+# cd /usr/share/elasticsearch
+
+# ls ./plugins/opendistro_security/securityconfig
+
+
+# ./jdk/bin/java -Dorg.apache.logging.log4j.simplelog.StatusLogger.level=OFF \
+#   -cp "./plugins/opendistro_security/*:./lib/*" com.amazon.opendistroforelasticsearch.security.tools.OpenDistroSecurityAdmin \
+#   -cd ./plugins/opendistro_security/securityconfig \
+#   -icl \
+#   -nhnv \
+#   -cacert ./config/root-ca.pem \
+#   -cert ./config/admin.pem \
+#   -key ./config/admin-key.pem
+
+
+# 01:20:27.135 [elasticsearch[_client_][transport_worker][T#1]] ERROR com.amazon.opendistroforelasticsearch.security.ssl.transport.OpenDistroSecuritySSLNettyTransport - SSL Problem No name matching localhost found
+
+# ```

@@ -1,0 +1,21 @@
+opendistro_security:
+  # If this is set to true Open Distro Security will automatically initialize the configuration index
+  # with the files in the config directory if the index does not exist.
+  # WARNING: This will use well-known default passwords.
+  #          Use only in a private network/environment.
+  allow_default_init_securityindex: true
+
+  # audit.type: internal_elasticsearch
+  # check_snapshot_restore_write_privileges: true
+  # enable_snapshot_restore_privilege: true
+  # restapi.roles_enabled: ["all_access", "security_rest_api_access"]
+  ssl.transport.enabled: true
+  ssl.transport.enforce_hostname_verification: false
+  ssl.transport.pemtrustedcas_filepath: root-ca.pem
+  ssl.transport.pemcert_filepath: node.pem
+  ssl.transport.pemkey_filepath: node-key.pem
+
+  ssl.http.enabled: false
+
+  nodes_dn:
+  - "CN=elasticsearch,O=cfm,L=ms,ST=nrw,C=DE"
