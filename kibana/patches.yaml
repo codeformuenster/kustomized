@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana-kibana
+spec:
+  template:
+    spec:
+      containers:
+      - name: kibana
+        env:
+        # FIXME from secret
+        - name: ELASTICSEARCH_USERNAME
+          value: kibanaserver
+        - name: ELASTICSEARCH_PASSWORD
+          value: kibanaserver
+        resources:
+          limits:
+            # 1Gi is not enough for:
+            # > Optimizing and caching bundles for opendistro-alerting, security-login, security-customerror, security-multitenancy, security-accountinfo, security-configuration, kibana, stateSessionStorageRedirect, status_page and timelion.
+            # More CPU speeds up process
+            memory: 2Gi
+            cpu: 2000m

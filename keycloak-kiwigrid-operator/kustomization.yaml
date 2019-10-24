@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: keycloak-test1
+commonLabels:
+  app.kubernetes.io/part-of: keycloak-operator
+
+resources:
+- ./keycloaks-crd.yaml
+- ./keycloakrealms-crd.yaml
+- ./keycloakclients-crd.yaml
+- ./keycloak-operator.yaml
+
+# FIXME
+# - use configmap-generator
+# - remove roles since we have everything in just one namespace

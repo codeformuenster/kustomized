@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: elasticsearch-test
+commonLabels:
+  app.kubernetes.io/part-of: fluentd
+
+resources:
+- ./helm/output/fluentd-elasticsearch/templates/clusterrole.yaml
+- ./helm/output/fluentd-elasticsearch/templates/clusterrolebinding.yaml
+- ./helm/output/fluentd-elasticsearch/templates/configmaps.yaml
+- ./helm/output/fluentd-elasticsearch/templates/daemonset.yaml
+- ./helm/output/fluentd-elasticsearch/templates/service-account.yaml

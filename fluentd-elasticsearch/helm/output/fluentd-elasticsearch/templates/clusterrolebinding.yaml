@@ -1,0 +1,22 @@
+---
+# Source: fluentd-elasticsearch/templates/clusterrolebinding.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: fluentd-elasticsearch
+  labels:
+    app.kubernetes.io/name: fluentd-elasticsearch
+    helm.sh/chart: fluentd-elasticsearch-4.9.1
+    app.kubernetes.io/instance: fluentd-elasticsearch
+    app.kubernetes.io/version: "2.7.0"
+    app.kubernetes.io/managed-by: Tiller
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+subjects:
+- kind: ServiceAccount
+  name: fluentd-elasticsearch
+  namespace: fluentd-elasticsearch
+roleRef:
+  kind: ClusterRole
+  name: fluentd-elasticsearch
+  apiGroup: rbac.authorization.k8s.io

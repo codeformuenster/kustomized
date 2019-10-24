@@ -1,0 +1,14 @@
+---
+# Source: kibana/templates/configmap.yaml
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-kibana-config
+  labels:
+    app: kibana
+    release: "kibana"
+data:
+  kibana.yml: |
+    

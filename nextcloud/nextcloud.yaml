@@ -229,5 +229,5 @@ spec:
             - -O-
             - -q
             - http://nextcloud/cron.php
-            # kubectl -n nextcloud exec -ti $nextcloud-pod-id -- \
+            # kubectl -n nextcloud exec -ti deployment/nextcloud -- \
             #   bash -c 'su -p -s /bin/sh www-data -c "php occ config:system:set --output plain trusted_domains 2 --value=nextcloud"'

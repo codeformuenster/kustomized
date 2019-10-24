@@ -1,0 +1,60 @@
+
+# https://github.com/stashed/installer/tree/v0.9.0-rc.0/chart/stash#configuration
+
+
+logLevel: 3
+
+serviceAccount:
+  create: true
+  name: stash
+
+apiserver:
+  # groupPriorityMinimum is the minimum priority the group should have. Please see
+  # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L58-L64
+  # for more information on proper values of this field.
+  groupPriorityMinimum: 10000
+  # versionPriority is the ordering of this API inside of the group. Please see
+  # https://github.com/kubernetes/kube-aggregator/blob/release-1.9/pkg/apis/apiregistration/v1beta1/types.go#L66-L70
+  # for more information on proper values of this field
+  versionPriority: 15
+  # enableMutatingWebhook is used to configure mutating webhook for Kubernetes workloads
+  enableMutatingWebhook: true
+  # enableValidatingWebhook is used to configure validating webhook for Stash CRDss
+  enableValidatingWebhook: true
+  # CA certificate used by main Kubernetes api server
+  ca: not-ca-cert
+  # If true, disables status sub resource for crds.
+  # Otherwise, enables status sub resource for Kubernetes version >= 1.11 and disables for other versions.
+  disableStatusSubresource: false
+  # If true, bypasses validating webhook xray checks
+  bypassValidatingWebhookXray: false
+  # If true, uses kube-apiserver FQDN for AKS cluster to workaround https://github.com/Azure/AKS/issues/522 (default true)
+  useKubeapiserverFqdnForAks: true
+  # healthcheck configures the readiness and liveliness probes for the operator pod.
+  healthcheck:
+    enabled: true
+
+# Send usage events to Google Analytics
+enableAnalytics: false
+
+monitoring:
+  agent: "prometheus.io/coreos-operator"
+  # specify whether to monitor backup and recovery
+  backup: true
+  # specify whether to monitor stash operator
+  operator: true
+  # specify where ServiceMonitor crd will be created
+  prometheus:
+    namespace: ""
+  serviceMonitor:
+    labels: {}
+
+# Additional psp names passed to operator
+# example: helm install appscode/stash \
+#            --set additionalPodSecurityPolicies[0]=abc \
+#            --set additionalPodSecurityPolicies[1]=xyz
+additionalPodSecurityPolicies: []
+
+# Name of platform (eg: Openshift, AKS, EKS, GKE, etc.)
+platform:
+  openshift: false

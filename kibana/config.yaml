@@ -1,0 +1,10 @@
+# elasticsearch:
+#   ssl.verificationMode: none
+#   requestHeadersWhitelist: ["securitytenant","Authorization"]
+
+# opendistro_security:
+#   cookie.password: ghP3pufGcjcDBP6iZ5N4e4cdJoz4lzt9zhiNA39WRUE=
+
+#   multitenancy.enabled: true
+#   multitenancy.tenants.preferred: ["Private", "Global"]
+#   readonly_mode.roles: ["kibana_read_only"]

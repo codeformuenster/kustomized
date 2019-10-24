@@ -7,4 +7,12 @@ commonLabels:
 
 resources:
 - ./cert-manager.yaml
-- ./servicemonitor.yaml
+# - ./servicemonitor.yaml
+
+# images:
+# - name: quay.io/jetstack/cert-manager-controller
+#   newTag: v0.9.0
+# - name: quay.io/jetstack/cert-manager-webhook
+#   newTag: v0.9.0
+# - name: quay.io/jetstack/cert-manager-cainjector
+#   newTag: v0.9.0

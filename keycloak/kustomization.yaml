@@ -10,6 +10,14 @@ resources:
 - ./postgres.yaml
 - ./oidcmapping-ClusterRole.yaml
 
+images:
+- name: jboss/keycloak
+  newTag: 6.0.1
+- name: postgres
+  newTag: 11.5-alpine
+- name: alpine
+  newTag: 3.10
+
 # secretGenerator:
 # - name: keycloak-admin-user
 #   env: ./secrets/keycloak-password-secret

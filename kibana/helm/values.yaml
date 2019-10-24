@@ -1,0 +1,5 @@
+image: "docker.elastic.co/kibana/kibana-oss"
+
+kibanaConfig:
+  kibana.yml: ""
+      
