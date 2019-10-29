@@ -39,12 +39,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: minio
-              key: access
+              key: access-key
         - name: MINIO_SECRET_KEY
           valueFrom:
             secretKeyRef:
               name: minio
-              key: secret
+              key: secret-key
         ports:
         - name: s3
           containerPort: 9000
