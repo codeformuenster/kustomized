@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: minio
+commonLabels:
+  app.kubernetes.io/part-of: minio
+
+resources:
+- ./minio.yaml
+
+images:
+- name: minio/minio
+  newTag: RELEASE.2019-10-12T01-39-57Z
+
+secretGenerator:
+- name: minio
+  behavior: create
+  envs:
+  - ./secrets/minio.env
