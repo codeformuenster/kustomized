@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mariadb
+commonLabels:
+  app.kubernetes.io/part-of: mariadb
+
+resources:
+- ./mariadb.yaml
+
+secretGenerator:
+- name: mariadb-passwords
+  behavior: create
+  envs:
+  - ./secrets/mariadb-passwords
