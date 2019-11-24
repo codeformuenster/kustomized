@@ -57,12 +57,12 @@ spec:
       containers:
       - name: mariadb
         image: mariadb:10.4
-        # FIXME command!
-        # see https://github.com/nextcloud/docker/blob/master/.examples/docker-compose/with-nginx-proxy/mariadb/apache/docker-compose.yml#L6
-        # command:
-        # - mysqld
-        # - --transaction-isolation=READ-COMMITTED
-        # - --binlog-format=ROW
+        command:
+        - mysqld
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+        securityContext:
+          runAsUser: 999
         ports:
         - name: db
           containerPort: 3306
