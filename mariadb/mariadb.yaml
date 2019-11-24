@@ -68,9 +68,15 @@ spec:
           containerPort: 3306
         env:
         - name: MYSQL_DATABASE
-          value: mysql
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-env-vars
+              key: database
         - name: MYSQL_USER
-          value: mysql
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-env-vars
+              key: user
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:

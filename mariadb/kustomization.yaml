@@ -8,6 +8,13 @@ commonLabels:
 resources:
 - ./mariadb.yaml
 
+configMapGenerator:
+- name: mariadb-env-vars
+  behavior: create
+  literals:
+  - user=mysql
+  - database=mysql
+
 secretGenerator:
 - name: mariadb-passwords
   behavior: create
