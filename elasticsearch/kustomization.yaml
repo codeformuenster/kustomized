@@ -7,9 +7,9 @@ commonLabels:
 
 resources:
 - ./helm/output/elasticsearch/templates/statefulset.yaml
-- ./helm/output/elasticsearch/templates/poddisruptionbudget.yaml
 - ./helm/output/elasticsearch/templates/configmap.yaml
 - ./helm/output/elasticsearch/templates/service.yaml
+#- ./helm/output/elasticsearch/templates/poddisruptionbudget.yaml
 
 images:
 - name: docker.elastic.co/elasticsearch/elasticsearch-oss
